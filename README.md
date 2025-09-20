@@ -1,4 +1,4 @@
-# Quran AI Search Assistant 🕌
+# QuranWordAssistant 🕌
 
 This is a simple AI-powered Quran search web app.
 - Enter a keyword or phrase.
@@ -6,7 +6,7 @@ This is a simple AI-powered Quran search web app.
 
 ## Tech Stack
 - Python
-- Streamlit
+- Flask
 - Scikit-learn (TF-IDF for search)
 
 ## Deployment
