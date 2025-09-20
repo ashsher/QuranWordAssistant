@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Search for a specific word in the Qur'an</h1>
+
+    <form method="POST">
+        <!-- Search input -->
+        <label for="query">Type in a word to search in the Qur’an:</label><br>
+        <input type="text" id="query" name="query" placeholder="e.g. mercy, Moses, prayer" value="{{ query }}" required>
+        <br><br>
+
+        <!-- Number of verses input -->
+        <label for="top_n">Number of verses to show:</label><br>
+        <input type="number" id="top_n" name="top_n" min="1" max="114" value="{{ top_n }}">
+        <br><br>
+
+        <!-- Submit button -->
+        <input type="submit" value="Search">
+    </form>
+
+    {% if results %}
+    <div class="result">
+        <strong>Results:</strong>
+        <ul>
+        {% for res in results %}
+            {% if res.get('surah') %}
+            <li class="verse-item">
+                <span class="surah">Surah {{ res.surah }}: {{ res.surah_name }}</span><br>
+                <span class="ayah">Ayah {{ res.ayah }}</span><br>
+                <div class="text">{{ res.text|safe }}</div>
+            </li>
+            <hr>
+            {% else %}
+            <li class="message">{{ res.text|safe }}</li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    </div>
+    <br>
+    {% endif %}
+{% endblock %}

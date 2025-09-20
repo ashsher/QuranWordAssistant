@@ -1,0 +1,262 @@
+:root {
+  --primary-color: #f4effa;
+  --secondary-color: #2f184b;
+  --third-color: #532b88;
+  --fourth-color: #9b72cf;
+  --fifth-color: #c8b1e4;
+  --sixth-color: black;
+}
+
+.god {
+    background-color: #e6ffe6;
+    color: #006400;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 4px;
+}
+
+body {
+    margin: 0;
+    margin: 0;
+    font-family: 'Merriweather', 'Georgia', serif;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+h1 { 
+    color: var(--secondary-color) 
+}
+        
+form { 
+    margin-bottom: 20px; 
+}
+        
+input[type=text], input[type=number] { 
+    padding: 10px; 
+}
+        
+input[type=submit] { 
+    padding: 10px 15px; 
+    background: var(--secondary-color); 
+    color: var(--primary-color); 
+    border: none; 
+    cursor: pointer; 
+}
+        
+.result { 
+    margin-top: 15px; 
+    padding: 15px; 
+    background: var(--primary-color);
+    border-radius: 5px; 
+    box-shadow: 0 0 5px rgba(0,0,0,0.1); 
+}
+
+.message {
+    color: var(--secondary-color); /* dark purple text */
+    font-weight: bold;
+}
+
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+    padding: 5px;
+    color: var(--primary-color);
+    list-style: none;
+}
+
+.surah {
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+.ayah {
+    font-weight: bold;
+    color: var(--third-color);
+}
+.text {
+    display: block;
+    margin-top: 5px;
+    font-style: bold;
+    color: var(--sixth-color);
+}
+
+
+/* Navbar */
+.navbar {
+    background-color: var(--third-color);
+    padding: 10px 20px;
+    color: var(--primary-color);
+}
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar .logo {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+.navbar .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+}
+.navbar .nav-links li a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+.navbar .nav-links li a:hover {
+    color: var(--secondary-color);
+}
+
+.navimg {
+    height: 2rem;
+}
+
+/* Footer */
+.footer {
+    background: var(--secondary-color); /* Dark Navy */
+    color: var(--primary-color);
+    padding: 12px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
+    font-size: 14px;
+    z-index: 999;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* spacing between links */
+    flex-wrap: wrap;
+}
+
+.footer-container a {
+    color: var(--fifth-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.footer-container a:hover {
+    color: var(--third-color); /* Light blue on hover */
+}
+
+.footer-text {
+    color: var(--primary-color);
+    margin-left: 20px;
+    font-size: 13px;
+}
+
+
+/* Content */
+.content {
+    padding: 0;
+    max-width: none;
+    margin: 20px;
+}
+
+/* Reading Quran */
+.surah-block {
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Surah Button */
+.surah-toggle {
+    width: 100%;
+    background-color: var(--secondary-color);
+    color: white;
+    font-size: 1rem;
+    text-align: left;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.surah-toggle:hover {
+    background-color: var(--third-color);
+}
+
+/* Verses */
+.verses {
+    padding: 10px;
+    background: var(--fifth-color);
+}
+.verses ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.verses li {
+    margin: 6px 0;
+    line-height: 1.4;
+}
+.ayah {
+    font-weight: bold;
+    color: var(--sixth-color);
+}
+.text {
+    margin-left: 6px;
+    display: inline-block;
+}
+
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
+
+
+/* Hidden class for collapsible */
+.hidden {
+    display: none;
+}
+
+
+.prophet {
+    background-color: #fff3cd;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-weight: bold;
+    color: #8b0000;
+}
+
+
+/* topics */
+.toggle-btn {
+    background-color: var(--third-color);
+    color: var(--primary-color);
+    padding: 8px 16px;
+    margin: 5px 0;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.toggle-btn:hover {
+    background-color: var(--secondary-color);
+}
+
+.ayahs {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.features>li {
+    color: var(--sixth-color);
+}

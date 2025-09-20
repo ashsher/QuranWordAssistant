@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>About QuranWordAssistant</h1>
+    <p>
+        QuranWordAssistant is a lightweight web app designed for 
+        <strong>students, researchers, and readers</strong> who want 
+        to study the Qur’an more interactively.
+    </p>
+
+    <h2>Features</h2>
+    <ul class="features">
+        <li>Search verses by keyword</li>
+        <li>Explore topics (AI-powered keyword grouping)</li>
+        <li>Read surahs with highlighted mentions of Allah and Prophets</li>
+        <li>Simple and mobile-friendly design</li>
+    </ul>
+
+    <h2>Why it was built</h2>
+    <p>
+        This project was created as a personal learning exercise in 
+        <strong>web development and AI</strong>, combining Flask, 
+        HTML/CSS, and machine learning models for semantic search.
+        The Author can be contacted via <a href="https://www.instagram.com/ashsher.uz/" target="_blank">Instagram</a>
+    </p>
+
+    <h2>Disclaimer</h2>
+    <p>
+        This tool is for <strong>study purposes only</strong>. 
+        Please always refer to authentic Qur’an texts and tafsirs 
+        for deeper understanding.
+    </p>
+
+    <h2>Credits</h2>
+    <p>
+        Qur’an text source: <a href="https://tanzil.net" target="_blank">Tanzil.net</a><br>
+        Technologies used: Python (Flask), Jinja2, Sentence Transformers, HTML/CSS
+    </p>
+    <p>
+         Download the Qur’an dataset (CSV format):  
+        <a href="{{ url_for('static', filename='quran.csv') }}" download>
+            Click here to download
+        </a>
+    </p>
+    <br>
+
+{% endblock %}

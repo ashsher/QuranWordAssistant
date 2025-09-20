@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QuranWordAssistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather&display=swap" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='book_icon.png') }}" type="image/png">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="logo">
+                <img class="navimg" src="{{ url_for('static', filename='book_icon.png') }}" alt="logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('search') }}">Search</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('read') }}">Read</a></li>
+                <li><a href="{{ url_for('topics') }}">Topics</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('search') }}">Search</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('topics') }}">Topics</a>
+            <a href="{{ url_for('read') }}">Read</a>
+            <span class="footer-text">&copy; 2025 QuranWordAssistant.</span>
+        </div>
+    </footer>
+
+
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+    // Words to highlight
+    const GOD = /\bAllah\b/gi;
+    const PROPHETS = [
+    "Adam",
+    "Elisha",
+    "Job",
+    "David",
+    "Dhul-Kifl",
+    "Aaron",
+    "Hud",
+    "Abraham",
+    "Enoch",
+    "Elias",
+    "Jesus",
+    "Isaac",
+    "Ishmael",
+    "Lot",
+    "Moses",
+    "Noah",
+    "Salih",
+    "Shu'ayb",
+    "Solomon",
+    "Ezra",
+    "Jacob",
+    "John",
+    "Johan",
+    "Joseph",
+    "Zachariya",
+    "Muhammad"
+];
+
+    // Function to highlight words inside ayah texts
+    function highlightAyahs() {
+        const ayahs = document.querySelectorAll(".text");
+
+        ayahs.forEach(ayah => {
+            let text = ayah.innerHTML;
+
+            // Highlight Allah
+            text = text.replace(GOD, `<span class="god">Allah</span>`);
+
+            // Highlight each prophet
+            PROPHETS.forEach(name => {
+                const regex = new RegExp(`\\b${name}\\b`, "gi");
+                text = text.replace(regex, `<span class="prophet">${name}</span>`);
+            });
+
+            ayah.innerHTML = text;
+        });
+    }
+
+    highlightAyahs();
+});
+</script>
+</body>
+
+
+</html>

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Read the Quran</h2>
+<p>Click on a Surah to expand and see its verses:</p>
+
+<div class="surah-container">
+    {% for surah in surahs %}
+    <div class="surah-block">
+        <button class="surah-toggle">Surah {{ surah.surah_num }}: {{surah.surah_name}} ▼</button>
+        <div class="verses hidden">
+            <ul>
+                {% for verse in surah.verses %}
+                <li>
+                    <span class="ayah">Ayah {{ verse.Ayah }}:</span><br>
+                    <span class="text">{{ verse.Text }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<br>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const toggles = document.querySelectorAll(".surah-toggle");
+    toggles.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const versesDiv = btn.nextElementSibling;
+            versesDiv.classList.toggle("hidden");
+            btn.textContent = btn.textContent.includes("▼") 
+                ? btn.textContent.replace("▼", "▲")
+                : btn.textContent.replace("▲", "▼");
+        });
+    });
+});
+</script>
+{% endblock %}

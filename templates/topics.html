@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Quran Topics (AI-Powered)</h1>
+
+    <form method="POST">
+        <label for="topic">Choose a topic:</label><br>
+        <select name="topic" id="topic">
+            <optgroup label="Daily Life & Personal Growth">
+                <option value="Patience">Patience (Sabr)</option>
+                <option value="Gratitude">Gratitude (Shukr)</option>
+                <option value="Honesty">Honesty & Truthfulness</option>
+                <option value="Forgiveness">Forgiveness</option>
+                <option value="Charity">Charity & Helping Others</option>
+                <option value="Respect for Parents">Respect for Parents</option>
+                <option value="Justice">Justice & Fairness</option>
+                <option value="Hardships">Dealing with Hardships</option>
+            </optgroup>
+
+            <optgroup label="Faith & Worship">
+                <option value="Prayer">Prayer (Salah)</option>
+                <option value="Fasting">Fasting (Sawm)</option>
+                <option value="Dhikr">Remembrance of Allah (Dhikr)</option>
+                <option value="Repentance">Repentance (Tawbah)</option>
+                <option value="Trust in Allah">Trust in Allah (Tawakkul)</option>
+            </optgroup>
+
+            <optgroup label="Social & Family Life">
+                <option value="Marriage">Marriage & Family</option>
+                <option value="Parents">Treatment of Parents</option>
+                <option value="Neighbours">Neighbours & Community</option>
+                <option value="Kindness">Kindness & Compassion</option>
+                <option value="Rights">Rights & Responsibilities</option>
+            </optgroup>
+
+            <optgroup label="Health & Family Matters">
+                <option value="Menstruation">Menstruation & Purity</option>
+                <option value="Sexual Relations">Marital Sexual Relations</option>
+                <option value="Health">Health & Cleanliness</option>
+                <option value="Purification">Purification (Wudu, Ghusl, Tayammum)</option>
+                <option value="Food">Halal & Haram Food</option>
+                <option value="Alcohol">Alcohol & Intoxicants</option>
+            </optgroup>
+
+            <optgroup label="Society & Guidance">
+                <option value="Wealth">Wealth & Poverty</option>
+                <option value="Peace">Peace & Conflict</option>
+                <option value="Environment">Environment & Creation</option>
+                <option value="Guidance">Guidance for Believers & Non-Believers</option>
+                <option value="Pharaoh">Pharaoh & Tyrants</option>
+                <option value="Angels">Angels</option>
+                <option value="Shaytan">Shaytan & Temptation</option>
+            </optgroup>
+        </select>
+        <input type="submit" value="Show Ayahs">
+    </form>
+
+    {% if results %}
+    <div class="result">
+        <h2>Results for "{{ selected_topic }}"</h2>
+        <ul>
+        {% for res in results %}
+            <li class="verse-item">
+                <span class="surah">Surah {{ res.surah }}: {{ res.surah_name }}</span><br>
+                <span class="ayah">Ayah {{ res.ayah }}</span><br>
+                <div class="text">{{ res.text|safe }}</div>
+            </li>
+            <hr>
+        {% endfor %}
+        </ul>
+    </div>
+    <br>
+    {% endif %}
+{% endblock %}

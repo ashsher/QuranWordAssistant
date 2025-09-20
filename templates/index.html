@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>QuranWordAssistant</h1>
+    <p>
+        A simple tool to <strong>search</strong> the Qur’an by keywords, 
+        <strong>read</strong> surahs, and <strong>explore topics</strong> 
+        with AI-powered suggestions.
+    </p>
+
+    <div style="margin-top:20px;">
+        <a href="{{ url_for('search') }}">
+            <button>Search in Qur’an</button>
+        </a>
+        <a href="{{ url_for('read') }}">
+            <button>Read Qur’an</button>
+        </a>
+        <a href="{{ url_for('topics') }}">
+            <button>Explore Topics</button>
+        </a>
+    </div>
+
+    <blockquote style="margin-top:30px; font-style:italic; color:#532b88;">
+        “This is the Book about which there is no doubt, a guidance for those conscious of Allah.” (2:2)
+    </blockquote>
+{% endblock %}
