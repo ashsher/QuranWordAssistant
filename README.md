@@ -1,4 +1,4 @@
-# Quran AI Search Assistant 🕌
+# QuranWordAssistant 🕌
 
 This is a simple AI-powered Quran search web app.
 - Enter a keyword or phrase.
