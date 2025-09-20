@@ -6,7 +6,7 @@ This is a simple AI-powered Quran search web app.
 
 ## Tech Stack
 - Python
-- Streamlit
+- Flask
 - Scikit-learn (TF-IDF for search)
 
 ## Deployment
