@@ -2,6 +2,8 @@ from flask import Flask, render_template, request
 import re
 from markupsafe import Markup
 import csv
+import pandas as pd
+
 
 # Machine learning / embeddings
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -70,19 +72,24 @@ def highlight_keywords(text, keywords):
 app = Flask(__name__)
 
 # Load Quran dataset
-quran = []
+quran_list = []
 with open("static/quran.csv", newline='', encoding="utf-8") as f:
     reader = csv.DictReader(f)
     for row in reader:
-        if row["Text"].strip():
-            quran.append({
+        text = row.get("Text")  # safer access
+        if text and text.strip():  # check it's not None and not empty
+            quran_list.append({
                 "Surah": int(row["Surah"]),
                 "Ayah": int(row["Ayah"]),
-                "Text": row["Text"].strip()
+                "Text": text.strip()
             })
+
+import pandas as pd
+quran = pd.DataFrame(quran_list)
 quran['Surah'] = quran['Surah'].astype(int)
 quran['Ayah'] = quran['Ayah'].astype(int)
 quran['Text'] = quran['Text'].astype(str)
+
 
 # Models
 vectorizer = TfidfVectorizer(stop_words='english')
