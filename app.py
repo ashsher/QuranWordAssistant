@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request
-import pandas as pd
 import re
 from markupsafe import Markup
 import csv
