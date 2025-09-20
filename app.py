@@ -2,8 +2,6 @@ from flask import Flask, render_template, request
 import re
 from markupsafe import Markup
 import csv
-import pandas as pd
-
 
 # Machine learning / embeddings
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -14,7 +12,6 @@ from torch.nn.functional import cosine_similarity as torch_cosine
 
 # Local imports
 from topics import TOPICS
-
 
 # === CONSTANTS ===
 SURAH_NAMES = {
@@ -50,59 +47,48 @@ PROPHETS = [
     "Zachariya", "Muhammad"
 ]
 
-
 # === HIGHLIGHT HELPERS ===
 def highlight_text(text, query):
-    """Highlight a search query in text (case-insensitive)."""
     if not query:
         return text
     regex = re.compile(re.escape(query), re.IGNORECASE)
     return Markup(regex.sub(lambda m: f"<span class='highlight'>{m.group(0)}</span>", text))
 
-
 def highlight_keywords(text, keywords):
-    """Highlight a list of keywords in text."""
     for kw in keywords:
         regex = re.compile(rf"\b({re.escape(kw)})\b", re.IGNORECASE)
         text = regex.sub(r'<span class="highlight">\1</span>', text)
     return Markup(text)
 
-
 # === APP & DATA LOADING ===
 app = Flask(__name__)
 
 # Load Quran dataset
-quran_list = []
+quran = []
 with open("static/quran.csv", newline='', encoding="utf-8") as f:
     reader = csv.DictReader(f)
     for row in reader:
-        text = row.get("Text")  # safer access
-        if text and text.strip():  # check it's not None and not empty
-            quran_list.append({
+        text = row.get("Text")
+        if text and text.strip():
+            quran.append({
                 "Surah": int(row["Surah"]),
                 "Ayah": int(row["Ayah"]),
                 "Text": text.strip()
             })
 
-import pandas as pd
-quran = pd.DataFrame(quran_list)
-quran['Surah'] = quran['Surah'].astype(int)
-quran['Ayah'] = quran['Ayah'].astype(int)
-quran['Text'] = quran['Text'].astype(str)
+# Prepare ML data
+ayah_texts = [row["Text"] for row in quran]
 
-
-# Models
+# TF-IDF model
 vectorizer = TfidfVectorizer(stop_words='english')
-X = vectorizer.fit_transform(quran['Text'].str.lower())
+X = vectorizer.fit_transform([text.lower() for text in ayah_texts])
 
+# Sentence embeddings
 model = SentenceTransformer("all-MiniLM-L6-v2")
-ayah_texts = quran["Text"].tolist()
 ayah_embeddings = model.encode(ayah_texts, convert_to_tensor=True)
-
 
 # === SEARCH ===
 def search_quran(query, top_n=5, threshold=0.2):
-    """Search ayahs using TF-IDF + cosine similarity."""
     if not query:
         return []
 
@@ -115,44 +101,39 @@ def search_quran(query, top_n=5, threshold=0.2):
     for idx in top_indices:
         score = similarities[idx]
         if score >= threshold:
+            ayah = quran[idx]
             results.append({
-                "surah": int(quran.loc[idx, "Surah"]),
-                "surah_name": SURAH_NAMES.get(int(quran.loc[idx, "Surah"]), ""),
-                "ayah": int(quran.loc[idx, "Ayah"]),
-                "text": highlight_text(quran.loc[idx, "Text"], query),
+                "surah": ayah["Surah"],
+                "surah_name": SURAH_NAMES.get(ayah["Surah"], ""),
+                "ayah": ayah["Ayah"],
+                "text": highlight_text(ayah["Text"], query),
                 "score": float(score)
             })
 
-    # sort results logically
     return sorted(results, key=lambda x: (x["surah"], x["ayah"])) or [{"text": "Nothing found"}]
-
 
 # === TOPICS ===
 def get_topic_ayahs(topic, top_n=10):
-    """Retrieve top ayahs for a given topic using embeddings."""
     topic_emb = model.encode([topic], convert_to_tensor=True)
     sims = torch_cosine(topic_emb, ayah_embeddings).squeeze()
-
     top_indices = torch.topk(sims, top_n).indices.tolist()
 
     results = []
     for idx in top_indices:
+        ayah = quran[idx]
         results.append({
-            "surah": int(quran.loc[idx, "Surah"]),
-            "surah_name": SURAH_NAMES.get(int(quran.loc[idx, "Surah"]), ""),
-            "ayah": int(quran.loc[idx, "Ayah"]),
-            "text": highlight_keywords(quran.loc[idx, "Text"], [topic]),
+            "surah": ayah["Surah"],
+            "surah_name": SURAH_NAMES.get(ayah["Surah"], ""),
+            "ayah": ayah["Ayah"],
+            "text": highlight_keywords(ayah["Text"], [topic]),
             "score": float(sims[idx])
         })
-
     return results
-
 
 # === ROUTES ===
 @app.route("/")
 def home():
     return render_template("index.html")
-
 
 @app.route("/search", methods=["GET", "POST"])
 def search():
@@ -163,30 +144,30 @@ def search():
         results = search_quran(query, top_n=top_n)
     return render_template("search.html", results=results, query=query, top_n=top_n)
 
-
 @app.route("/about")
 def about():
     return render_template("about.html")
 
-
 @app.route("/read")
 def read():
     """Read the Quran surah by surah."""
-    sorted_quran = quran.sort_values(by=["Surah", "Ayah"])
-    grouped_quran = sorted_quran.groupby("Surah")
+    # Group by Surah
+    surah_dict = {}
+    for ayah in quran:
+        s = ayah["Surah"]
+        if s not in surah_dict:
+            surah_dict[s] = []
+        surah_dict[s].append(ayah)
 
     surahs = [
         {
-            "surah_num": int(num),
-            "surah_name": SURAH_NAMES.get(int(num), f"Surah {num}"),
-            "verses": verses.to_dict(orient="records")
+            "surah_num": s,
+            "surah_name": SURAH_NAMES.get(s, f"Surah {s}"),
+            "verses": sorted(surah_dict[s], key=lambda x: x["Ayah"])
         }
-        for num, verses in grouped_quran
+        for s in sorted(surah_dict.keys())
     ]
-
-    surahs = sorted(surahs, key=lambda s: s["surah_num"])
     return render_template("read.html", surahs=surahs)
-
 
 @app.route("/topics", methods=["GET", "POST"])
 def topics():
@@ -195,14 +176,12 @@ def topics():
         selected_topic = request.form.get("topic")
         if selected_topic:
             results = get_topic_ayahs(selected_topic, top_n=10)
-
     return render_template(
         "topics.html",
         topics=TOPICS,
         selected_topic=selected_topic,
         results=results
     )
-
 
 # === MAIN ===
 if __name__ == "__main__":

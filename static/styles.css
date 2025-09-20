@@ -260,3 +260,87 @@ li {
 .features>li {
     color: var(--sixth-color);
 }
+
+/* === BUTTON STYLES === */
+button, 
+input[type="submit"], 
+.btn {
+  background: var(--third-color); /* green gradient */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+/* Hover effect */
+button:hover, 
+input[type="submit"]:hover, 
+.btn:hover {
+  background: var(--fourth-color);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+/* Active/click effect */
+button:active, 
+input[type="submit"]:active, 
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+/* Disabled state */
+button:disabled, 
+input[type="submit"]:disabled, 
+.btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* === DROPDOWN (SELECT) STYLES === */
+select {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 2px solid var(--third-color);
+  background: #f9f9f9;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  outline: none;
+  margin: 10px 0;
+  appearance: none; /* remove default arrow */
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Focus effect */
+select:focus {
+  border-color: var(--secondary-color);
+  box-shadow: 0 0 0 3px var(--secondary-color);
+}
+
+/* Dropdown options */
+option {
+  padding: 8px;
+  font-size: 15px;
+}
+
+/* Group labels */
+optgroup {
+  font-weight: bold;
+  color: var(--third-color);
+  background: #f0f0f0;
+  padding: 4px;
+}
+
+
